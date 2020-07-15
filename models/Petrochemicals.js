@@ -31,6 +31,12 @@ let PetroChemicalsSchema = new Schema({
     default: NA
   },
 
+  deleted: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+
   industry: {
     type: String,
     required: true,
@@ -51,6 +57,12 @@ let PetroChemicalsSchema = new Schema({
   essentialFunctions: {
     type: Array,
     required: true,
+  },
+
+  new: {
+    type: Boolean,
+    required: true,
+    default: true
   },
 
   skillsAndExperience: {

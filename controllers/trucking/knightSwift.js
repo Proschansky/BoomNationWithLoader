@@ -2,6 +2,7 @@ const db = require("../../models");
 const puppeteer = require("puppeteer");
 
 module.exports = async (req, res) => {
+  
   const homePage = "https://driveknight.com/jobs/?";
 
   const browser = await puppeteer.launch({
@@ -64,8 +65,8 @@ module.exports = async (req, res) => {
     job.jobDescription = paragraphs[4];
 
     //Creating the new record in the database, for those records, which don't yet exist.
-    db.Trucking.findOne({ url: job.url }).then((res) => {
-      if (!res) {
+    db.Trucking.findOne({ url: job.url }).then((resp) => {
+      if (!resp) {
         db.Trucking.create({
           company: job.company,
           jobClassification: job.jobClassification,
@@ -83,16 +84,15 @@ module.exports = async (req, res) => {
       .then((records) => {
         for (let j = 0; j < records.length; j++) {
           if (urls.indexOf(records[j].url) === -1) {
-            db.Trucking.deleteOne({ url: records[j].url }).catch((err) =>
+            db.Trucking.updateOne({ url: records[j].url },{deleted: true}).catch((err) =>
               console.log("ERROR DELETING URL LINE 82", err)
             );
           }
         }
       })
       .catch((err) =>
-        console.log("ERROR FINDING PETROCHEMICAL RECORDS LINE 85", err)
+        console.log("ERROR FINDING TRUCKING RECORDS LINE 85", err)
       );
   }
-
-  res.sendStatus(200).end();
+  res.sendStatus(200);
 };

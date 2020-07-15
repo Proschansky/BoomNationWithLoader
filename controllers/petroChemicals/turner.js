@@ -94,10 +94,10 @@ module.exports = async (req, res)=>{
       
       for(let j = 0; j < records.length; j++){
         if(urls.indexOf(records[j].url) === -1){
-          db.Petrochemicals.deleteOne({url: records[j].url}).catch(err => console.log("ERROR DELETING URL LINE 99", err))
+          db.Petrochemicals.updateOne({url: records[j].url},{deleted: true}).catch(err => console.log("ERROR DELETING URL LINE 97", err))
         }
       }
-    }).catch(err => console.log("ERROR FINDING PETROCHEMICAL RECORDS LINE 102", err))
+    }).catch(err => console.log("ERROR FINDING PETROCHEMICAL RECORDS LINE 100", err))
   }
 
 
