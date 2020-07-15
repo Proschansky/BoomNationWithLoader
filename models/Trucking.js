@@ -36,13 +36,20 @@ let TruckingSchema = new Schema({
 
   jobDescription: {
     type: String,
+    required: false,
+    default: NA,
+  },
+
+  jobClassification: {
+    type: String,
     required: true,
     default: NA,
   },
 
   essentialFunctions: {
     type: String,
-    required: true,
+    required: false,
+    default: NA
   },
 
   skillsAndExperience: {
