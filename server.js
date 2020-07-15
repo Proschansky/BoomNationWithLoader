@@ -16,7 +16,7 @@ app.use(express.static("frontend/build"));
 app.use(routes);
 
 // Connect to the Mongo DB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/BoomNation", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/BoomNation", { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 
 // Start the API server

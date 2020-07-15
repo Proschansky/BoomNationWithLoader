@@ -12,4 +12,6 @@ router.get("/turner", route.turner);
 
 router.delete("/:id", route.delete);
 
+router.put("/:id", route.handleSeen);
+
 module.exports = router;
