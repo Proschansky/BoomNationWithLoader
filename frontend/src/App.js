@@ -4,7 +4,7 @@ import "./App.css";
 import React from "react";
 // import { useTable } from "react-table";
 import styled from "styled-components";
-import { useTable, useFilters, useGlobalFilter, useAsyncDebounce, usePagination, useBlockLayout, useFlexLayout } from 'react-table'
+import { useTable, useFilters, useGlobalFilter, useAsyncDebounce, usePagination, useBlockLayout, useFlexLayout, useRowSelect } from 'react-table'
 import { FixedSizeList } from 'react-window'
 
 import matchSorter from 'match-sorter'
@@ -72,6 +72,23 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
   return matchSorter(rows, filterValue, { keys: [row => row.values[id]] })
 }
 
+const IndeterminateCheckbox = React.forwardRef(
+  ({ indeterminate, ...rest }, ref) => {
+    const defaultRef = React.useRef()
+    const resolvedRef = ref || defaultRef
+
+    React.useEffect(() => {
+      resolvedRef.current.indeterminate = indeterminate
+    }, [resolvedRef, indeterminate])
+
+    return (
+      <>
+        <input type="checkbox" ref={resolvedRef} {...rest} />
+      </>
+    )
+  }
+)
+
 // Let the table remove the filter if the string is empty
 fuzzyTextFilterFn.autoRemove = val => !val
 
@@ -109,10 +126,10 @@ function Table({ columns, data }) {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    prepareRow,
     page, // Instead of using 'rows', we'll use page,
     // which has only the rows for the active page
     rows,
+    prepareRow,
     totalColumnsWidth,
 
     // The rest of these things are super handy, too ;)
@@ -129,6 +146,9 @@ function Table({ columns, data }) {
     preGlobalFilteredRows,
     setGlobalFilter,
     state: { pageIndex, pageSize },
+
+    selectedFlatRows,
+    state: { selectedRowIds },
   } = useTable(
     {
       columns,
@@ -137,11 +157,35 @@ function Table({ columns, data }) {
       defaultColumn, // Be sure to pass the defaultColumn option
       filterTypes
     },
-    usePagination,
     // useFlexLayout,
     // useBlockLayout,
     useFilters, // useFilters!
-    useGlobalFilter // useGlobalFilter!
+    useGlobalFilter, // useGlobalFilter!
+    usePagination,
+    useRowSelect,
+    hooks => {
+      hooks.visibleColumns.push(columns => [
+        // Let's make a column for selection
+        {
+          id: 'selection',
+          // The header can use the table's getToggleAllRowsSelectedProps method
+          // to render a checkbox
+          Header: ({ getToggleAllRowsSelectedProps }) => (
+            <div>
+              <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+            </div>
+          ),
+          // The cell can use the individual row's getToggleRowSelectedProps method
+          // to the render a checkbox
+          Cell: ({ row }) => (
+            <div>
+              <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+            </div>
+          ),
+        },
+        ...columns,
+      ])
+    },
   )
 
   const RenderRow = React.useCallback(

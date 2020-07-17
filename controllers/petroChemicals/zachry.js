@@ -92,15 +92,16 @@ module.exports = async (req, res) => {
       } 
     })
 
-    //Removing jobs no longer posted on the website from our collection.
+    //Setting all job records to deleted, if their urls are no longer on the website
     db.Petrochemicals.find().then(records=>{
       
       for(let j = 0; j < records.length; j++){
         if(urls.indexOf(records[j].url) === -1){
-          db.Petrochemicals.deleteOne({url: records[j].url}).catch(err => console.log("ERROR DELETING URL LINE 100", err))
+          console.log(records[j].url)
+          db.Petrochemicals.updateOne({url: records[j].url},{deleted: true}).catch(err => console.log("ERROR DELETING URL LINE 101", err))
         }
       }
-    }).catch(err => console.log("ERROR FINDING PETROCHEMICAL RECORDS LINE 103", err))
+    }).catch(err => console.log("ERROR FINDING PETROCHEMICAL RECORDS LINE 104", err))
 
   }
 

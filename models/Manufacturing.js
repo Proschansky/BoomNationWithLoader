@@ -34,12 +34,6 @@ let ManufacturingSchema = new Schema({
     required: false,
   },
 
-  jobClassification: {
-    type: String,
-    required: true,
-    default: NA,
-  },
-
   jobDescription: {
     type: String,
     required: true,

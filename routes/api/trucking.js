@@ -1,17 +1,12 @@
 const router = require("express").Router();
-const route = require('../../controllers/petroChemicals')
+const route = require('../../controllers/trucking')
 
-// Matches with "/api/petroChemicals"
 router.route("/");
 
 router.get('/', route.getAll);
-
-router.get("/zachry", route.zachry);
-
-router.get("/turner", route.turner);
-
+router.get('/knightSwift', route.knightSwift);
+router.get('/pilotFlyingJ', route.pilotFlyingJ);
 router.delete("/:id", route.delete);
-
 router.put("/:id", route.handleSeen);
 
 module.exports = router;

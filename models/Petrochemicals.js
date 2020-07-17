@@ -11,7 +11,7 @@ let PetroChemicalsSchema = new Schema({
   capabilities: {
     type: String,
     required: false,
-    default: NA,
+    default: NA
   },
 
   company: {
@@ -22,11 +22,19 @@ let PetroChemicalsSchema = new Schema({
   datePosted: {
     type: String,
     required: false,
+    default: NA
   },
 
   desiredQualifications: {
     type: String,
     required: false,
+    default: NA
+  },
+
+  deleted: {
+    type: Boolean,
+    required: true,
+    default: false
   },
 
   industry: {
@@ -37,19 +45,13 @@ let PetroChemicalsSchema = new Schema({
 
   internalId: {
     type: String,
-    required: false,
-  },
-
-  jobClassification: {
-    type: String,
-    required: true,
-    default: NA,
+    required: false
   },
 
   jobDescription: {
     type: String,
     required: true,
-    default: NA,
+    default: NA
   },
 
   essentialFunctions: {
@@ -57,26 +59,33 @@ let PetroChemicalsSchema = new Schema({
     required: true,
   },
 
+  new: {
+    type: Boolean,
+    required: true,
+    default: true
+  },
+
   skillsAndExperience: {
     type: Array,
     required: false,
-    default: NA,
+    default: NA
   },
 
   salary: {
     type: String,
     required: false,
-    default: NA,
+    default: NA
   },
 
   url: {
     type: String,
-    required: true,
+    required: true
   },
 
   workingConditions: {
     type: String,
     required: false,
+    default: NA
   },
 
   workLocations: {

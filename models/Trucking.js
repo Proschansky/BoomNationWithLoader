@@ -29,9 +29,21 @@ let TruckingSchema = new Schema({
     required: false,
   },
 
+  deleted: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+
   internalId: {
     type: String,
     required: false,
+  },
+
+  jobDescription: {
+    type: String,
+    required: false,
+    default: NA,
   },
 
   jobClassification: {
@@ -40,15 +52,16 @@ let TruckingSchema = new Schema({
     default: NA,
   },
 
-  jobDescription: {
-    type: String,
-    required: true,
-    default: NA,
-  },
-
   essentialFunctions: {
     type: String,
+    required: false,
+    default: NA
+  },
+
+  new: {
+    type: Boolean,
     required: true,
+    default: true
   },
 
   skillsAndExperience: {
