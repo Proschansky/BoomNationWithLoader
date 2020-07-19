@@ -485,7 +485,8 @@ export default class App extends React.Component {
           }),
         accessor: key,
         Cell: cell => {
-          if(cell.value && typeof cell.value !== 'string'){
+          console.log(cell)
+          if(cell.value && typeof cell.value === 'object'){
             return (<ul>
               {cell.value.map((val,i)=>{
                 return <li key={i}>{val}</li>
