@@ -51,6 +51,20 @@ Object.filter = function (obj, prop) {
   return result;
 };
 
+const deleteData = async (rowID) => {
+  let data = await axios.delete("/api/petroChemicals/" + rowID).then((res) => {
+    return res.data;
+  });
+  window.location.reload(true);
+}
+
+const updateData = async (rowID) => {
+  let data = await axios.put("/api/petroChemicals/" + rowID).then((res) => {
+    return res.data;
+  });
+  window.location.reload(true);
+}
+
 // Define a default UI for filtering
 function DefaultColumnFilter({
   column: { filterValue, preFilteredRows, setFilter },
@@ -179,8 +193,15 @@ function Table({ columns, data }) {
           // to the render a checkbox
           Cell: ({ row }) => (
             <div>
-              <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-            </div>
+              <div onClick={() => {deleteData(row.values._id)}}>
+                <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+                <p>Delete</p>
+              </div>
+              {/* <div>
+                <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+                <p>Seen</p>
+              </div> */}
+          </div>
           ),
         },
         ...columns,
@@ -233,7 +254,7 @@ function Table({ columns, data }) {
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map(cell => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  return <td {...data[i].__id} {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 })}
               </tr>
             )
@@ -252,6 +273,20 @@ function Table({ columns, data }) {
       </div> */}
 
       </table>
+      <pre>
+        <code>
+          {JSON.stringify(
+            {
+              selectedRowIds: selectedRowIds,
+              'selectedFlatRows[].original': selectedFlatRows.map(
+                d => d.original
+              ),
+            },
+            null,
+            2
+          )}
+        </code>
+      </pre>
       <br />
       {/* <div>Showing the first 10 results of {page.length} rows</div> */}
       {/* 
@@ -442,6 +477,7 @@ export default class App extends React.Component {
     this.state = {
       data: [
         {
+          __id: undefined,
           benefits: undefined,
           capabilities: undefined,
           jobClassification: undefined,
@@ -467,7 +503,7 @@ export default class App extends React.Component {
     });
 
     for (let i = 0; i < data.length; i++) {
-      data[i] = Object.filter(data[i], "_id");
+      // data[i] = Object.filter(data[i], "_id");
       data[i] = Object.filter(data[i], "__v");
     }
     // console.log(data);
@@ -485,7 +521,7 @@ export default class App extends React.Component {
           }),
         accessor: key,
         Cell: cell => {
-          console.log(cell)
+          // console.log(cell)
           if(cell.value && typeof cell.value === 'object'){
             return (<ul>
               {cell.value.map((val,i)=>{
