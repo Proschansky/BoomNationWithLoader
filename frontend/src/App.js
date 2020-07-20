@@ -1,11 +1,17 @@
 import axios from "axios";
-import "./App.css";
+// import "./App.css";
 
 import React from "react";
-// import { useTable } from "react-table";
 import styled from "styled-components";
-import { useTable, useFilters, useGlobalFilter, useAsyncDebounce, usePagination, useBlockLayout, useFlexLayout, useRowSelect } from 'react-table'
 import { FixedSizeList } from 'react-window'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import MaUTable from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+
+import { useTable, useFilters, useGlobalFilter, useAsyncDebounce, usePagination, useBlockLayout, useFlexLayout, useRowSelect } from 'react-table'
 
 import matchSorter from 'match-sorter'
 
@@ -59,10 +65,11 @@ const deleteData = async (rowID) => {
 }
 
 const updateData = async (rowID) => {
-  let data = await axios.put("/api/petroChemicals/" + rowID).then((res) => {
-    return res.data;
-  });
-  window.location.reload(true);
+  // let data = await axios.put("/api/petroChemicals/" + rowID).then((res) => {
+  //   return res.data;
+  // });
+  // window.location.reload(true);
+  console.log("Seen");
 }
 
 // Define a default UI for filtering
@@ -97,7 +104,7 @@ const IndeterminateCheckbox = React.forwardRef(
 
     return (
       <>
-        <input type="checkbox" ref={resolvedRef} {...rest} />
+        <input type="checkbox" ref={resolvedRef}/>
       </>
     )
   }
@@ -161,6 +168,9 @@ function Table({ columns, data }) {
     setGlobalFilter,
     state: { pageIndex, pageSize },
 
+    allColumns,
+    getToggleHideAllColumnsProps,
+
     selectedFlatRows,
     state: { selectedRowIds },
   } = useTable(
@@ -181,27 +191,45 @@ function Table({ columns, data }) {
       hooks.visibleColumns.push(columns => [
         // Let's make a column for selection
         {
-          id: 'selection',
+          id: 'delete',
           // The header can use the table's getToggleAllRowsSelectedProps method
           // to render a checkbox
           Header: ({ getToggleAllRowsSelectedProps }) => (
             <div>
-              <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+              <p>Delete</p>
             </div>
           ),
           // The cell can use the individual row's getToggleRowSelectedProps method
           // to the render a checkbox
           Cell: ({ row }) => (
-            <div>
               <div onClick={() => {deleteData(row.values._id)}}>
                 <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
                 <p>Delete</p>
               </div>
-              {/* <div>
+          ),
+        },
+        ...columns,
+      ])
+    },
+    hooks => {
+      hooks.visibleColumns.push(columns => [
+        // Let's make a column for selection
+        {
+          id: 'seen',
+          // The header can use the table's getToggleAllRowsSelectedProps method
+          // to render a checkbox
+          Header: ({ getToggleAllRowsSelectedProps }) => (
+            <div>
+              <p>Seen</p> 
+            </div>
+          ),
+          // The cell can use the individual row's getToggleRowSelectedProps method
+          // to the render a checkbox
+          Cell: ({ row }) => (
+              <div onClick={() => {updateData(row.values._id)}}>
                 <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
                 <p>Seen</p>
-              </div> */}
-          </div>
+              </div>
           ),
         },
         ...columns,
@@ -236,57 +264,92 @@ function Table({ columns, data }) {
   // Render the UI for your table
   return (
     <>
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>{column.render('Header')}
-                <div>{column.canFilter ? column.render('Filter') : null}</div>
-                </th>
-              ))}
-            </tr>
+    <img src="logo.png"/>
+    {/* <div>
+        <div>
+          <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} /> Toggle
+          All
+        </div>
+        {allColumns.map(column => (
+          <div key={column.id}>
+            <label>
+              <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+              {column.id}
+            </label>
+          </div>
+        ))}
+        <br />
+      </div> */}
+      <div className="pagination">
+        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          {'<<'}
+        </button>{' '}
+        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+          {'<'}
+        </button>{' '}
+        <button onClick={() => nextPage()} disabled={!canNextPage}>
+          {'>'}
+        </button>{' '}
+        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          {'>>'}
+        </button>{' '}
+        <span>
+          Page{' '}
+          <strong>
+            {pageIndex + 1} of {pageOptions.length}
+          </strong>{' '}
+        </span>
+        <span>
+          | Go to page:{' '}
+          <input
+            type="number"
+            defaultValue={pageIndex + 1}
+            onChange={e => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0
+              gotoPage(page)
+            }}
+            style={{ width: '100px' }}
+          />
+        </span>{' '}
+        <select
+          value={pageSize}
+          onChange={e => {
+            setPageSize(Number(e.target.value))
+          }}
+        >
+          {[10, 20, 30, 40, 50].map(pageSize => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
           ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
+        </select>
+      </div>
+      <br />
+      <MaUTable {...getTableProps()}>
+        <TableHead>
+          {headerGroups.map(headerGroup => (
+            <TableRow {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <TableCell {...column.getHeaderProps()}>{column.render('Header')}
+                <div>{column.canFilter ? column.render('Filter') : null}</div>
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableHead>
+        <TableBody {...getTableBodyProps()}>
           {page.map((row, i) => {
             prepareRow(row)
             return (
-              <tr {...row.getRowProps()}>
+              <TableRow {...row.getRowProps()}>
                 {row.cells.map(cell => {
-                  return <td {...data[i].__id} {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  return <TableCell {...data[i].__id} {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>
                 })}
-              </tr>
+              </TableRow>
             )
           })}
-        </tbody>
-
-      {/* <div {...getTableBodyProps()}>
-        <FixedSizeList
-          height={400}
-          itemCount={page.length}
-          itemSize={35}
-          width={totalColumnsWidth}
-        >
-          {RenderRow}
-        </FixedSizeList>
-      </div> */}
-
-      </table>
-      <pre>
-        <code>
-          {JSON.stringify(
-            {
-              selectedRowIds: selectedRowIds,
-              'selectedFlatRows[].original': selectedFlatRows.map(
-                d => d.original
-              ),
-            },
-            null,
-            2
-          )}
-        </code>
-      </pre>
+        </TableBody>
+      </MaUTable>
       <br />
       {/* <div>Showing the first 10 results of {page.length} rows</div> */}
       {/* 
@@ -341,143 +404,13 @@ function Table({ columns, data }) {
   )
 }
 
-// function Table({ columns, data }) {
-//   const {
-//     getTableProps,
-//     getTableBodyProps,
-//     headerGroups,
-//     rows,
-//     prepareRow,
-//   } = useTable({ columns, data });
-
-//   // Render Data Table UI
-//   return (
-//     <table {...getTableProps()} className='table-light table-responsive'>
-//       <thead>
-//         {headerGroups.map((headerGroup) => (
-//           <tr {...headerGroup.getHeaderGroupProps()}>
-//             {headerGroup.headers.map((column) => (
-//               <th {...column.getHeaderProps()}>{column.render("Header")}</th>
-//             ))}
-//           </tr>
-//         ))}
-//       </thead>
-//       <tbody {...getTableBodyProps()}>
-//         {rows.map((row, i) => {
-//           prepareRow(row);
-//           return (
-//             <tr {...row.getRowProps()}>
-//               {row.cells.map((cell) => {
-//                 return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
-//               })}
-//             </tr>
-//           );
-//         })}
-//       </tbody>
-//     </table>
-//   );
-// }
-
-
-// // Our table component
-// function Table({ columns, data }) {
-//   const filterTypes = React.useMemo(
-//     () => ({
-//       // Add a new fuzzyTextFilterFn filter type.
-//       fuzzyText: fuzzyTextFilterFn,
-//       // Or, override the default text filter to use
-//       // "startWith"
-//       text: (rows, id, filterValue) => {
-//         return rows.filter(row => {
-//           const rowValue = row.values[id]
-//           return rowValue !== undefined
-//             ? String(rowValue)
-//                 .toLowerCase()
-//                 .startsWith(String(filterValue).toLowerCase())
-//             : true
-//         })
-//       },
-//     }),
-//     []
-//   )
-
-//   const defaultColumn = React.useMemo(
-//     () => ({
-//       // Let's set up our default Filter UI
-//       Filter: DefaultColumnFilter,
-//     }),
-//     []
-//   )
-
-//   const {
-//     getTableProps,
-//     getTableBodyProps,
-//     headerGroups,
-//     rows,
-//     prepareRow,
-//     state,
-//     visibleColumns,
-//     preGlobalFilteredRows,
-//     setGlobalFilter,
-//   } = useTable(
-//     {
-//       columns,
-//       data,
-//       defaultColumn, // Be sure to pass the defaultColumn option
-//       filterTypes,
-//     },
-//     useFilters, // useFilters!
-//     useGlobalFilter // useGlobalFilter!
-//   )
-
-//   // We don't want to render all of the rows for this example, so cap
-//   // it for this use case
-//   const firstPageRows = rows.slice(0, 10)
-
-//   return (
-//     <>
-//       <table {...getTableProps()}>
-//         <thead>
-//           {headerGroups.map(headerGroup => (
-//             <tr {...headerGroup.getHeaderGroupProps()}>
-//               {headerGroup.headers.map(column => (
-//                 <th {...column.getHeaderProps()}>
-//                   {column.render('Header')}
-//                   {/* Render the columns filter UI */}
-//                   <div>{column.canFilter ? column.render('Filter') : null}</div>
-//                 </th>
-//               ))}
-//             </tr>
-//           ))}
-//         </thead>
-//         <tbody {...getTableBodyProps()}>
-//           {firstPageRows.map((row, i) => {
-//             prepareRow(row)
-//             return (
-//               <tr {...row.getRowProps()}>
-//                 {row.cells.map(cell => {
-//                   return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-//                 })}
-//               </tr>
-//             )
-//           })}
-//         </tbody>
-//       </table>
-//       <br />
-//       <div>Showing the first 10 results of {rows.length} rows</div>
-//     </>
-//   )
-// }
-
-
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [
         {
-          __id: undefined,
+          _id: undefined,
           benefits: undefined,
           capabilities: undefined,
           jobClassification: undefined,
@@ -535,6 +468,7 @@ export default class App extends React.Component {
 
     return (
       <Styles>
+        <CssBaseline />
         <Table data={data} columns={columns} />
       </Styles>
     );
