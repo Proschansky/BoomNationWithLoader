@@ -3,6 +3,13 @@ let Schema = mongoose.Schema;
 const NA = "Information not available.";
 
 let OilAndGasSchema = new Schema({
+
+  new: {
+    type: Boolean,
+    required: true,
+    default: true
+  },
+
   benefits: {
     type: Array,
     required: false,
@@ -19,14 +26,31 @@ let OilAndGasSchema = new Schema({
     required: true,
   },
 
+  dateAdded: {
+    type: String,
+    required: true,
+    default: new Date().toDateString()
+  },
+
   datePosted: {
     type: String,
     required: false,
   },
 
+  dateDeleted: {
+    type: String,
+    required: false
+  },
+
   desiredQualifications: {
     type: String,
     required: false,
+  },
+
+  deleted: {
+    type: Boolean,
+    required: true,
+    default: false
   },
 
   internalId: {
@@ -36,13 +60,20 @@ let OilAndGasSchema = new Schema({
 
   jobDescription: {
     type: String,
+    required: false,
+    default: NA,
+  },
+
+  jobClassification: {
+    type: String,
     required: true,
     default: NA,
   },
 
   essentialFunctions: {
     type: String,
-    required: true,
+    required: false,
+    default: NA
   },
 
   skillsAndExperience: {
@@ -71,7 +102,7 @@ let OilAndGasSchema = new Schema({
     type: String,
     required: true,
     default: NA,
-  },
+  }
 });
 
 let OilAndGas = mongoose.model("OilAndGas", OilAndGasSchema);
