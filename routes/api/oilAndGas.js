@@ -8,4 +8,8 @@ router.get('/', route.getAll);
 
 router.get("/halliburton", route.halliburton);
 
+router.get("/schlumberger", route.schlumberger);
+
+router.put("/handleSeen", route.handleSeen);
+
 module.exports = router;
