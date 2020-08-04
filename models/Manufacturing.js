@@ -3,6 +3,12 @@ let Schema = mongoose.Schema;
 const NA = "Information not available.";
 
 let ManufacturingSchema = new Schema({
+  new: {
+    type: Boolean,
+    required: true,
+    default: true
+  },
+
   benefits: {
     type: Array,
     required: false,
@@ -11,7 +17,7 @@ let ManufacturingSchema = new Schema({
   capabilities: {
     type: String,
     required: false,
-    default: NA,
+    default: NA
   },
 
   company: {
@@ -19,59 +25,86 @@ let ManufacturingSchema = new Schema({
     required: true,
   },
 
+  dateAdded: {
+    type: String,
+    required: true,
+    default: new Date().toDateString()
+  },
+
   datePosted: {
     type: String,
     required: false,
+    default: NA
+  },
+
+  dateDeleted: {
+    type: String,
+    required: false
   },
 
   desiredQualifications: {
     type: String,
     required: false,
+    default: NA
+  },
+
+  deleted: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+
+  industry: {
+    type: String,
+    required: true,
+    default: "Petro Chemicals"
   },
 
   internalId: {
     type: String,
-    required: false,
+    required: false
   },
 
   jobDescription: {
     type: String,
     required: true,
-    default: NA,
+    default: NA
   },
 
   essentialFunctions: {
-    type: String,
+    type: Array,
     required: true,
   },
 
   skillsAndExperience: {
     type: Array,
     required: false,
-    default: NA,
+    default: NA
   },
 
   salary: {
     type: String,
     required: false,
-    default: NA,
+    default: NA
   },
 
   url: {
     type: String,
-    required: true,
+    required: true
   },
 
   workingConditions: {
     type: String,
     required: false,
+    default: NA
   },
 
   workLocations: {
     type: String,
     required: true,
     default: NA,
-  },
+  }
+
 });
 
 let Manufacturing = mongoose.model("Manufacturing", ManufacturingSchema);

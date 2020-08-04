@@ -55,7 +55,7 @@ module.exports = async (req, res) => {
       //Creating the new record in the database, for those records, which don't yet exist.
       db.OilAndGas.findOne({ url: job.url }).then((res) => {
         if (!res) {
-          db.Petrochemicals.create({
+          db.OilAndGas.create({
             company: job.company,
             jobDescription: job.jobDescription,
             jobTitle: job.jobTitle,
@@ -71,7 +71,7 @@ module.exports = async (req, res) => {
         .then((records) => {
           for (let j = 0; j < records.length; j++) {
             if (urls.indexOf(records[j].url) === -1) {
-              db.Petrochemicals.updateOne(
+              db.OilAndGas.updateOne(
                 { url: records[j].url },
                 { deleted: true }
               ).catch((err) => console.log("ERROR DELETING URL LINE 77", err));
