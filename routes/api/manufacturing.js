@@ -8,6 +8,8 @@ router.get('/', route.getAll);
 
 router.get("/pepsiCo", route.pepsiCo);
 
+router.put("/handleDelete/:id", route.handleDelete);
+
 router.put("/handleSeen", route.handleSeen);
 
 module.exports = router;

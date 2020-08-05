@@ -12,4 +12,6 @@ router.get("/schlumberger", route.schlumberger);
 
 router.put("/handleSeen", route.handleSeen);
 
+router.put("/handleDelete/:id", route.handleDelete);
+
 module.exports = router;

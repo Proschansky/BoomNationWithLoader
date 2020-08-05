@@ -10,7 +10,7 @@ router.get("/zachry", route.zachry);
 
 router.get("/turner", route.turner);
 
-router.delete("/:id", route.delete);
+router.put("/handleDelete/:id", route.handleDelete);
 
 router.put("/:id", route.handleSeen);
 
