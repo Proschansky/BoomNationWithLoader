@@ -58,7 +58,7 @@ Object.filter = function (obj, prop) {
 };
 
 const deleteData = async (rowID) => {
-  let data = await axios.delete("/api/petroChemicals/" + rowID).then((res) => {
+  let data = await axios.put("/handleDelete/" + rowID).then((res) => {
     return res.data;
   });
   window.location.reload(true);
@@ -414,6 +414,7 @@ export default class App extends React.Component {
           benefits: undefined,
           capabilities: undefined,
           jobClassification: undefined,
+          deleted: undefined,
           jobDescription: undefined,
           essentialFunctions: undefined,
           skillsAndExperience: undefined,
@@ -438,6 +439,7 @@ export default class App extends React.Component {
     for (let i = 0; i < data.length; i++) {
       // data[i] = Object.filter(data[i], "_id");
       data[i] = Object.filter(data[i], "__v");
+      data[i].deleted = data[i].deleted.toString();
     }
     // console.log(data);
     this.setState({ data });
@@ -454,7 +456,7 @@ export default class App extends React.Component {
           }),
         accessor: key,
         Cell: cell => {
-          // console.log(cell)
+          console.log(data)
           if(cell.value && typeof cell.value === 'object'){
             return (<ul>
               {cell.value.map((val,i)=>{
