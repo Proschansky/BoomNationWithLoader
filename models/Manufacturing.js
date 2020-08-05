@@ -57,7 +57,7 @@ let ManufacturingSchema = new Schema({
   industry: {
     type: String,
     required: true,
-    default: "Petro Chemicals"
+    default: "Manufacturing"
   },
 
   internalId: {

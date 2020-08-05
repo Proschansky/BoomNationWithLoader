@@ -57,7 +57,6 @@ module.exports = async (req, res) => {
     });
 
     job.company = "Knight Swift";
-    job.jobClassification = "Trucking";
     job.workLocations = tableDisplays[1];
     job.jobType = `${tableDisplays[3]} ${tableDisplays[5]} ${tableDisplays[7]}`;
     job.url = filteredUrls[i];
@@ -71,7 +70,6 @@ module.exports = async (req, res) => {
         db.Trucking.create({
           benefits: job.benefits,
           company: job.company,
-          jobClassification: job.jobClassification,
           jobDescription: job.jobDescription,
           jobType: job.jobType,
           skillsAndExperience: job.skillsAndExperience,

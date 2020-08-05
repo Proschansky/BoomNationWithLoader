@@ -34,7 +34,6 @@ module.exports = async (req, res) => {
     );
 
     job.company = headers[0].trim();
-    job.jobClassification = "Petrochemicals";
     job.jobDescription = headers[1].trim();
     job.url = actualUrls[i].trim();
     job.workLocations = await page.evaluate(() => {

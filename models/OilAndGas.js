@@ -53,6 +53,12 @@ let OilAndGasSchema = new Schema({
     default: false
   },
 
+  industry: {
+    type: String,
+    required: true,
+    default: "Oil and Gas"
+  },
+
   internalId: {
     type: String,
     required: false,

@@ -69,7 +69,6 @@ module.exports = async (req, res) => {
     });
 
     job.jobType = jobTitle[0][0];
-    job.jobClassification = "Trucking";
     job.workLocations = locationLabel[0];
     job.datePosted = date[0].slice(8, date[0].length);
     job.internalId = jobRef[0].slice(16, jobRef[0].length);
@@ -104,7 +103,6 @@ module.exports = async (req, res) => {
         db.Trucking.create({
           company: job.company,
           url: job.url,
-          jobClassification: job.jobClassification,
           workLocations: job.workLocations,
           datePosted: job.datePosted,
           internalId: job.internalId,

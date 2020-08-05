@@ -71,7 +71,6 @@ module.exports = async (req, res)=>{
     job.skillsAndExperience = unorderListItems[2];
     job.jobDescription = paragraphs[0].join();
     job.essentialFunctions = paragraphs[1].join();
-    job.jobClassification = "Petrochemicals";
     job.company = "Turner Industries";
     
     //Creating the new record in the database, for those records, which don't yet exist.
