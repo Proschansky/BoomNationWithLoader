@@ -58,13 +58,15 @@ module.exports = async (req, res) => {
     job.jobType = listItems[1];
     job.internalId = listItems[2];
     job.jobDescription = paragraphs[0];
-    job.company = "PepsiCo"
+    job.company = "PepsiCo";
+    job.jobClassification = "Manufacturing";
 
     //Creating the new record in the database, for those records, which don't yet exist.
     db.Manufacturing.findOne({ url: job.url }).then((res) => {
       if (!res) {
         db.Manufacturing.create({
           company: job.company,
+          jobClassification: job.jobClassification,
           jobDescription: job.jobDescription,
           internalId: job.internalId,
           jobTitle: job.jobTitle,

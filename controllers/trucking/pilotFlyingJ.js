@@ -68,7 +68,8 @@ module.exports = async (req, res) => {
       );
     });
 
-    job.jobClassification = jobTitle[0][0];
+    job.jobType = jobTitle[0][0];
+    job.jobClassification = "Trucking";
     job.workLocations = locationLabel[0];
     job.datePosted = date[0].slice(8, date[0].length);
     job.internalId = jobRef[0].slice(16, jobRef[0].length);
@@ -87,7 +88,7 @@ module.exports = async (req, res) => {
       );
     });
 
-    if (job.jobClassification !== "Truck Care") {
+    if (job.jobType !== "Truck Care") {
       job.benefits = jobDescription[0][1].split("\n").slice(1, 11);
     } else {
       const jobDesc = jobDescription[0].filter((item) => item !== "");
