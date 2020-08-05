@@ -58,7 +58,21 @@ Object.filter = function (obj, prop) {
 };
 
 const deleteData = async (rowID) => {
-  let data = await axios.put("/handleDelete/" + rowID).then((res) => {
+  const industry = data[rowID].jobClassification;
+  let newIndustry;
+  if (industry === "Petro Chemicals") {
+    newIndustry = "petroChemicals"
+  }
+  if (industry === "Trucking") {
+    newIndustry = "trucking"
+  }
+  if (industry === "Oil and Gas") {
+    newIndustry = "oilAndGas"
+  }
+  if (industry === "Trucking") {
+    newIndustry = "trucking"
+  }
+  let data = await axios.put(newIndustry + "/handleDelete/" + rowID).then((res) => {
     return res.data;
   });
   window.location.reload(true);
@@ -415,6 +429,7 @@ export default class App extends React.Component {
           capabilities: undefined,
           jobClassification: undefined,
           deleted: undefined,
+          new: undefined,
           jobDescription: undefined,
           essentialFunctions: undefined,
           skillsAndExperience: undefined,
@@ -429,6 +444,12 @@ export default class App extends React.Component {
 
   componentDidMount = () => {
     this.fetchData();
+    const routes = ["/api/petroChemicals/zachry", "/api/petroChemicals/turner", "/api/trucking/knightSwift", "/api/trucking/pilotFlyingJ", "/api/oilAndGas/halliburton", "/api/oilAndGas/schlumberger", "/api/manufacturing/pepsiCo"];
+    for (let i = 0; i < routes.length; i++) {
+      axios.get(routes[i]).then((res) => {
+        return res.data
+      });
+    }
   };
 
   fetchData = async () => {
@@ -440,6 +461,7 @@ export default class App extends React.Component {
       // data[i] = Object.filter(data[i], "_id");
       data[i] = Object.filter(data[i], "__v");
       data[i].deleted = data[i].deleted.toString();
+      data[i].new = data[i].new.toString();
     }
     // console.log(data);
     this.setState({ data });
