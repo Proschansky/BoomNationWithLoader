@@ -112,6 +112,7 @@ module.exports = async (req, res) => {
     job.datePosted = datePosted[0];
     job.workLocations = jobLocation[0];
     job.jobDescription = jobDescription[0];
+    job.jobClassification = "Oil and Gas"
 
     //Creating the new record in the database, for those records, which don't yet exist.
     db.OilAndGas.findOne({ url: job.url }).then((res) => {
@@ -120,6 +121,7 @@ module.exports = async (req, res) => {
           company: job.company,
           datePosted: job.datePosted,
           jobDescription: job.jobDescription,
+          jobClassification: job.jobClassification,
           jobType: job.jobType,
           url: job.url,
           workLocations: job.workLocations,

@@ -57,8 +57,9 @@ module.exports = async (req, res) => {
     });
 
     job.company = "Knight Swift";
+    job.jobClassification = "Trucking";
     job.workLocations = tableDisplays[1];
-    job.jobClassification = `${tableDisplays[3]} ${tableDisplays[5]} ${tableDisplays[7]}`;
+    job.jobType = `${tableDisplays[3]} ${tableDisplays[5]} ${tableDisplays[7]}`;
     job.url = filteredUrls[i];
     job.benefits = requirements[0];
     job.skillsAndExperience = [requirements[1][0], requirements[2][0]];
@@ -68,6 +69,7 @@ module.exports = async (req, res) => {
     db.Trucking.findOne({ url: job.url }).then((resp) => {
       if (!resp) {
         db.Trucking.create({
+          benefits: job.benefits,
           company: job.company,
           jobClassification: job.jobClassification,
           jobDescription: job.jobDescription,
