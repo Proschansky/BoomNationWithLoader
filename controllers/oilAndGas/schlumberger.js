@@ -48,7 +48,6 @@ module.exports = async (req, res) => {
       });
 
       job.jobDescription = paragraphs[1];
-      job.jobClassification = "Oil and Gas"
       job.jobTitle = header[0];
       job.skillsAndExperience = paragraphs[2];
       job.workLocations = paragraphs[11] + " " + paragraphs[10];
@@ -58,7 +57,6 @@ module.exports = async (req, res) => {
         if (!res) {
           db.OilAndGas.create({
             company: job.company,
-            jobClassification: job.jobClassification,
             jobDescription: job.jobDescription,
             jobTitle: job.jobTitle,
             url: job.url,

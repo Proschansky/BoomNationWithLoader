@@ -52,6 +52,12 @@ let TruckingSchema = new Schema({
     required: true,
     default: false
   },
+  
+  industry: {
+    type: String,
+    required: true,
+    default: "Trucking"
+  },
 
   internalId: {
     type: String,
