@@ -3,6 +3,12 @@ let Schema = mongoose.Schema;
 const NA = "Information not available.";
 
 let PetroChemicalsSchema = new Schema({
+  new: {
+    type: Boolean,
+    required: true,
+    default: true
+  },
+
   benefits: {
     type: Array,
     required: false,
@@ -19,10 +25,21 @@ let PetroChemicalsSchema = new Schema({
     required: true,
   },
 
+  dateAdded: {
+    type: String,
+    required: true,
+    default: new Date().toDateString()
+  },
+
   datePosted: {
     type: String,
     required: false,
     default: NA
+  },
+
+  dateDeleted: {
+    type: String,
+    required: false
   },
 
   desiredQualifications: {
@@ -59,12 +76,6 @@ let PetroChemicalsSchema = new Schema({
     required: true,
   },
 
-  new: {
-    type: Boolean,
-    required: true,
-    default: true
-  },
-
   skillsAndExperience: {
     type: Array,
     required: false,
@@ -92,7 +103,8 @@ let PetroChemicalsSchema = new Schema({
     type: String,
     required: true,
     default: NA,
-  },
+  }
+
 });
 
 let PetroChemicals = mongoose.model("PetroChemicals", PetroChemicalsSchema);
