@@ -95,10 +95,8 @@ module.exports = async (req, res) => {
 
     //Setting all job records to deleted, if their urls are no longer on the website
     db.Petrochemicals.find().then(records=>{
-      
       for(let j = 0; j < records.length; j++){
         if(urls.indexOf(records[j].url) === -1){
-          console.log(records[j].url)
           db.Petrochemicals.updateOne({url: records[j].url},{deleted: true}).catch(err => console.log("ERROR DELETING URL LINE 101", err))
         }
       }
