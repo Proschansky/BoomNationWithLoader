@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const routes = require("./routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
+const path = require('path');
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
@@ -10,7 +11,7 @@ app.use(express.json());
 
 
 // Serve up static assets (usually on heroku)
-app.use(express.static("frontend/build"));
+app.use(express.static(path.join(__dirname, "frontend/build")));
 
 // Add routes, both API and view
 app.use(routes);

@@ -2,6 +2,8 @@ const db = require("../../models");
 const puppeteer = require("puppeteer");
 
 module.exports = async (req, res)=>{
+
+  res.sendStatus(200)
   
   const homePage = "https://turnerindustries.applicantpro.com/jobs/";
 
@@ -100,8 +102,5 @@ module.exports = async (req, res)=>{
       }
     }).catch(err => console.log("ERROR FINDING PETROCHEMICAL RECORDS LINE 100", err))
   }
-
-
-  res.sendStatus(200).end();
 
 };
