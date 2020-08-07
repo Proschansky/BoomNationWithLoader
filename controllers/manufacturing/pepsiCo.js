@@ -2,6 +2,7 @@ const db = require("../../models");
 const puppeteer = require("puppeteer");
 
 module.exports = async (req, res) => {
+  res.sendStatus(200);
   const homePage = "https://www.pepsicojobs.com/main/jobs?categories=Manufacturing%20and%20Production%20&page=1&limit=100";
 
   const browser = await puppeteer.launch({
@@ -92,5 +93,4 @@ module.exports = async (req, res) => {
       );
   }
 
-  res.sendStatus(200).end();
 };

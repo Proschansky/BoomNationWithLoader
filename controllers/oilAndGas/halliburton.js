@@ -2,6 +2,8 @@ const db = require("../../models");
 const puppeteer = require("puppeteer");
 
 module.exports = async (req, res) => {
+
+  res.sendStatus(200);
   const homePage = "https://jobs.halliburton.com/search/";
 
   const browser = await puppeteer.launch({
@@ -144,5 +146,4 @@ module.exports = async (req, res) => {
       );
   }
 
-  res.sendStatus(200).end();
 };

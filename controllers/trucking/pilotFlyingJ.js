@@ -2,6 +2,7 @@ const db = require("../../models");
 const puppeteer = require("puppeteer");
 
 module.exports = async (req, res) => {
+  res.sendStatus(200);
   const homePage =
     "https://jobs.pilotflyingj.com/drivers?page_size=250&page_number=1&sort_by=headline&sort_order=ASC&custom_categories=Driver%20Position&custom_categories=All%20Driver%20Positions&custom_categories=DEF%20Driver%20Position&custom_categories=PFJ%20Crude%20Driver&custom_categories=Driver%20Positions&custom_categories=All%20Driver%20Jobs";
 
@@ -32,8 +33,6 @@ module.exports = async (req, res) => {
       link.substring(0, truckCare.length) === truckCare
     );
   });
-
-  res.sendStatus(200);
 
   for (let i = 0; i < filteredUrls.length; i++) {
     await page.goto(`https://jobs.pilotflyingj.com${filteredUrls[i]}`);

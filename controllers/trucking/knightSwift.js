@@ -2,6 +2,8 @@ const db = require("../../models");
 const puppeteer = require("puppeteer");
 
 module.exports = async (req, res) => {
+
+  res.sendStatus(200);
   
   const homePage = "https://driveknight.com/jobs/?";
 
@@ -94,5 +96,5 @@ module.exports = async (req, res) => {
         console.log("ERROR FINDING TRUCKING RECORDS LINE 85", err)
       );
   }
-  res.sendStatus(200);
+  
 };

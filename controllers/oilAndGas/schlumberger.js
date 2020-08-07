@@ -2,6 +2,7 @@ const db = require("../../models");
 const puppeteer = require("puppeteer");
 
 module.exports = async (req, res) => {
+  res.sendStatus(200);
   const homePage = "https://careers.slb.com/job-listing";
 
   const browser = await puppeteer.launch({
@@ -82,6 +83,4 @@ module.exports = async (req, res) => {
           console.log("ERROR FINDING PETROCHEMICAL RECORDS LINE 82", err)
         );
     }
-
-  res.sendStatus(200).end();
 };

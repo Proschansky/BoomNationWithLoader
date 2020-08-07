@@ -490,21 +490,21 @@ export default class App extends React.Component {
         return res.data;
       });
     }
+
+    this.fetchData();
   };
 
   fetchData = async () => {
-    const data = axios.get("/api/getAll").then((res) => {
-      return res
+    const data = await axios.get("/api/getAll").then((res) => {
+      return res.data
     });
-
-    console.log(data);
 
     for (let i = 0; i < data.length; i++) {
       data[i] = Object.filter(data[i], "__v");
       data[i].deleted = data[i].deleted.toString();
       data[i].new = data[i].new.toString();
     }
-    // console.log(data);
+    
     this.setState({ data });
     return data
   };

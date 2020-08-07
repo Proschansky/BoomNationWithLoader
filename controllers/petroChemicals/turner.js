@@ -3,7 +3,7 @@ const puppeteer = require("puppeteer");
 
 module.exports = async (req, res)=>{
 
-  res.sendStatus(200)
+  res.sendStatus(200);
   
   const homePage = "https://turnerindustries.applicantpro.com/jobs/";
 
