@@ -485,13 +485,6 @@ export default class App extends React.Component {
       "/api/oilAndGas/schlumberger",
       "/api/manufacturing/pepsiCo",
     ];
-    const routeAll = [
-      "/api/petroChemicals",
-      "/api/trucking",
-      "/api/oilAndGas",
-      "/api/manufacturing",
-    ];
-    console.log(this.fetchData(routeAll));
     for (let i = 0; i < routes.length; i++) {
       axios.get(routes[i]).then((res) => {
         return res.data;
@@ -499,19 +492,14 @@ export default class App extends React.Component {
     }
   };
 
-  fetchData = async (routes) => {
-    let data = [];
-    for (let i = 0; i < routes.length; i++) {
-      axios.get(routes[i]).then((res) => {
-        for (let j = 0; j < res.length; j++) {
-          data.push(res[j]);
-        }
-      });
-    }
-    // console.log(data)
+  fetchData = async () => {
+    const data = axios.get("/api/getAll").then((res) => {
+      return res
+    });
+
+    console.log(data);
 
     for (let i = 0; i < data.length; i++) {
-      // data[i] = Object.filter(data[i], "_id");
       data[i] = Object.filter(data[i], "__v");
       data[i].deleted = data[i].deleted.toString();
       data[i].new = data[i].new.toString();
