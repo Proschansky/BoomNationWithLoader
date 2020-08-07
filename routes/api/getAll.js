@@ -1,7 +1,7 @@
 const db = require("../../models");
 
 module.exports = async (req, res)=>{
-    let jobListings;
+    let jobListings = [];
     await db.Manufacturing.find().then(res => jobListings = res)
     .then( await db.Petrochemicals.find().then(res=>{
         jobListings = jobListings.concat(res)
