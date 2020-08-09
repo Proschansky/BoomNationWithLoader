@@ -2,6 +2,8 @@ const db = require("../../models");
 const puppeteer = require("puppeteer");
 
 module.exports = async (req, res) => {
+
+  res.sendStatus(200);
   
   const homePage = "https://driveknight.com/jobs/?";
 
@@ -58,7 +60,7 @@ module.exports = async (req, res) => {
 
     job.company = "Knight Swift";
     job.workLocations = tableDisplays[1];
-    job.jobClassification = `${tableDisplays[3]} ${tableDisplays[5]} ${tableDisplays[7]}`;
+    job.jobType = `${tableDisplays[3]} ${tableDisplays[5]} ${tableDisplays[7]}`;
     job.url = filteredUrls[i];
     job.benefits = requirements[0];
     job.skillsAndExperience = [requirements[1][0], requirements[2][0]];
@@ -68,8 +70,8 @@ module.exports = async (req, res) => {
     db.Trucking.findOne({ url: job.url }).then((resp) => {
       if (!resp) {
         db.Trucking.create({
+          benefits: job.benefits,
           company: job.company,
-          jobClassification: job.jobClassification,
           jobDescription: job.jobDescription,
           jobType: job.jobType,
           skillsAndExperience: job.skillsAndExperience,
@@ -94,5 +96,5 @@ module.exports = async (req, res) => {
         console.log("ERROR FINDING TRUCKING RECORDS LINE 85", err)
       );
   }
-  res.sendStatus(200);
+  
 };

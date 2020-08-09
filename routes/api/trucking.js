@@ -6,7 +6,7 @@ router.route("/");
 router.get('/', route.getAll);
 router.get('/knightSwift', route.knightSwift);
 router.get('/pilotFlyingJ', route.pilotFlyingJ);
-router.delete("/:id", route.delete);
+router.put("/handleDelete/:id", route.handleDelete);
 router.put("/:id", route.handleSeen);
 
 module.exports = router;

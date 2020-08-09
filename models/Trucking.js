@@ -3,6 +3,13 @@ let Schema = mongoose.Schema;
 const NA = "Information not available.";
 
 let TruckingSchema = new Schema({
+
+  new: {
+    type: Boolean,
+    required: true,
+    default: true
+  },
+
   benefits: {
     type: Array,
     required: false,
@@ -19,9 +26,20 @@ let TruckingSchema = new Schema({
     required: true,
   },
 
+  dateAdded: {
+    type: String,
+    required: true,
+    default: new Date().toDateString()
+  },
+
   datePosted: {
     type: String,
     required: false,
+  },
+
+  dateDeleted: {
+    type: String,
+    required: false
   },
 
   desiredQualifications: {
@@ -33,6 +51,12 @@ let TruckingSchema = new Schema({
     type: Boolean,
     required: true,
     default: false
+  },
+  
+  industry: {
+    type: String,
+    required: true,
+    default: "Trucking"
   },
 
   internalId: {
@@ -56,12 +80,6 @@ let TruckingSchema = new Schema({
     type: String,
     required: false,
     default: NA
-  },
-
-  new: {
-    type: Boolean,
-    required: true,
-    default: true
   },
 
   skillsAndExperience: {
@@ -90,7 +108,7 @@ let TruckingSchema = new Schema({
     type: String,
     required: true,
     default: NA,
-  },
+  }
 });
 
 let Trucking = mongoose.model("Trucking", TruckingSchema);
