@@ -2,18 +2,13 @@ const db = require("../../models");
 const puppeteer = require("puppeteer");
 
 module.exports = async (req, res) => {
-
   res.sendStatus(200);
   const homePage = "https://zachryconstructioncorporation.ourcareerpages.com/";
 
   const browser = await puppeteer.launch({
     headless: true,
-    args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox'
-      ]
+    args: ["--no-sandbox"],
   });
-
 
   const page = await browser.newPage();
 
@@ -82,10 +77,10 @@ module.exports = async (req, res) => {
       .catch(() => {
         return "BENEFITS";
       });
-    
+
     //Creating the new record in the database, for those records, which don't yet exist.
-    db.Petrochemicals.findOne({url: job.url}).then(res => {
-      if(!res){
+    db.Petrochemicals.findOne({ url: job.url }).then((res) => {
+      if (!res) {
         db.Petrochemicals.create({
           company: job.company,
           classification: job.jobClassification,
@@ -97,18 +92,23 @@ module.exports = async (req, res) => {
           skillsAndExperience: job.skillsAndExperience,
           benefits: job.benefits,
         }).catch((err) => console.log(err));
-      } 
-    })
+      }
+    });
 
     //Setting all job records to deleted, if their urls are no longer on the website
-    db.Petrochemicals.find().then(records=>{
-      for(let j = 0; j < records.length; j++){
-        if(urls.indexOf(records[j].url) === -1){
-          db.Petrochemicals.updateOne({url: records[j].url},{deleted: true}).catch(err => console.log("ERROR DELETING URL LINE 101", err))
+    db.Petrochemicals.find()
+      .then((records) => {
+        for (let j = 0; j < records.length; j++) {
+          if (urls.indexOf(records[j].url) === -1) {
+            db.Petrochemicals.updateOne(
+              { url: records[j].url },
+              { deleted: true }
+            ).catch((err) => console.log("ERROR DELETING URL LINE 101", err));
+          }
         }
-      }
-    }).catch(err => console.log("ERROR FINDING PETROCHEMICAL RECORDS LINE 104", err))
-
+      })
+      .catch((err) =>
+        console.log("ERROR FINDING PETROCHEMICAL RECORDS LINE 104", err)
+      );
   }
-
 };

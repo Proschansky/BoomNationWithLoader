@@ -3,14 +3,12 @@ const puppeteer = require("puppeteer");
 
 module.exports = async (req, res) => {
   res.sendStatus(200);
-  const homePage = "https://www.pepsicojobs.com/main/jobs?categories=Manufacturing%20and%20Production%20&page=1&limit=100";
+  const homePage =
+    "https://www.pepsicojobs.com/main/jobs?categories=Manufacturing%20and%20Production%20&page=1&limit=100";
 
   const browser = await puppeteer.launch({
     headless: true,
-    args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox'
-      ]
+    args: ["--no-sandbox"],
   });
 
   const page = await browser.newPage();
@@ -19,7 +17,9 @@ module.exports = async (req, res) => {
     await page.goto(homePage);
 
     return await page.evaluate(() => {
-      return Array.from(document.getElementsByTagName("a"), (a)=>a.getAttribute("href"));
+      return Array.from(document.getElementsByTagName("a"), (a) =>
+        a.getAttribute("href")
+      );
     });
   };
 
@@ -96,5 +96,4 @@ module.exports = async (req, res) => {
         console.log("ERROR FINDING PETROCHEMICAL RECORDS LINE 93", err)
       );
   }
-
 };

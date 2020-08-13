@@ -2,19 +2,14 @@ const db = require("../../models");
 const puppeteer = require("puppeteer");
 
 module.exports = async (req, res) => {
-
   res.sendStatus(200);
-  
+
   const homePage = "https://driveknight.com/jobs/?";
 
   const browser = await puppeteer.launch({
     headless: true,
-    args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox'
-      ]
+    args: ["--no-sandbox"],
   });
-
 
   const page = await browser.newPage();
 
@@ -91,9 +86,10 @@ module.exports = async (req, res) => {
       .then((records) => {
         for (let j = 0; j < records.length; j++) {
           if (urls.indexOf(records[j].url) === -1) {
-            db.Trucking.updateOne({ url: records[j].url },{deleted: true}).catch((err) =>
-              console.log("ERROR DELETING URL LINE 82", err)
-            );
+            db.Trucking.updateOne(
+              { url: records[j].url },
+              { deleted: true }
+            ).catch((err) => console.log("ERROR DELETING URL LINE 82", err));
           }
         }
       })
@@ -101,5 +97,4 @@ module.exports = async (req, res) => {
         console.log("ERROR FINDING TRUCKING RECORDS LINE 85", err)
       );
   }
-  
 };
