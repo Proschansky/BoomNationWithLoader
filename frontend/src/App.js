@@ -26,10 +26,9 @@ import {
 import matchSorter from "match-sorter";
  
 const WebLoader = ()=>{
-
     return (
       <div className="container">
-        <Loader loaded={true} />
+        <Loader loaded={false} />
       </div>
     );
 }
