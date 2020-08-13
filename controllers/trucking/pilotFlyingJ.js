@@ -6,9 +6,14 @@ module.exports = async (req, res) => {
   const homePage =
     "https://jobs.pilotflyingj.com/drivers?page_size=250&page_number=1&sort_by=headline&sort_order=ASC&custom_categories=Driver%20Position&custom_categories=All%20Driver%20Positions&custom_categories=DEF%20Driver%20Position&custom_categories=PFJ%20Crude%20Driver&custom_categories=Driver%20Positions&custom_categories=All%20Driver%20Jobs";
 
-  const browser = await puppeteer.launch({
-    headless: true,
-  });
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox'
+        ]
+    });
+  
 
   const page = await browser.newPage();
 
