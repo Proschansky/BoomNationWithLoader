@@ -505,7 +505,7 @@ export default class App extends React.Component {
       data[i].new = data[i].new.toString();
     }
     
-    console.log("THIS IS THE DATA:", data)
+    console.log("THIS IS THE DATA: ", data)
     this.setState({ data });
     return data
   };
