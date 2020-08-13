@@ -10,6 +10,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import Loader from "react-loader"
 
 import {
   useTable,
@@ -23,6 +24,15 @@ import {
 } from "react-table";
 
 import matchSorter from "match-sorter";
+ 
+const WebLoader = ()=>{
+
+    return (
+      <div className="container">
+        <Loader loaded={true} />
+      </div>
+    );
+}
 
 const Styles = styled.div`
   padding: 1rem;
@@ -507,12 +517,12 @@ export default class App extends React.Component {
     }
     
     console.log("THIS IS THE DATA: ", data)
-    this.setState({ data });
+    this.setState({ data, loading: 0 });
     return data
   };
 
   render() {
-    const { data } = this.state;
+    const { data, loading } = this.state;
     const columns = Object.keys(data[0]).map((key, i) => {
       return {
         Header: (key.toString().charAt(0).toUpperCase() + key.slice(1))
@@ -537,11 +547,16 @@ export default class App extends React.Component {
       };
     });
 
-    return (
-      <Styles>
-        <CssBaseline />
-        <Table data={data} columns={columns} />
-      </Styles>
-    );
+    if(!loading){
+      return (
+        <Styles>
+          <CssBaseline />
+          <Table data={data} columns={columns} />
+        </Styles>
+      );
+    } else {
+      return <WebLoader />
+    }
+    
   }
 }
